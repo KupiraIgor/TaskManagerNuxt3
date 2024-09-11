@@ -2,7 +2,7 @@
 
 <template>
   <div class="index-page">
-    <v-btn>sad</v-btn>
+    <Board />
   </div>
 </template>
 

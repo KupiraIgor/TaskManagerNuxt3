@@ -2,6 +2,7 @@
 
 <template>
   <div class="default-layout">
+    <TheHeader />
     <main><slot /></main>
   </div>
 </template>
