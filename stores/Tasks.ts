@@ -3,56 +3,40 @@ import { defineStore } from 'pinia'
 export const useTasksStore = defineStore('tasks', () => {
   const tasks = ref([
     {
-      id_col: 1,
-      title: 'To do',
-      list: [
-        {
-          name: 'Johanna',
-          id: 3,
-        },
-        {
-          name: 'Juan',
-          id: 1,
-        },
-      ],
+      id_status: 1,
+      status: 'To do',
+      list: [],
     },
     {
-      id_col: 2,
-      title: 'In progress',
-      list: [
-        {
-          name: 'Johanna',
-          id: 5,
-        },
-        {
-          name: 'Juan',
-          id: 4,
-        },
-      ],
-    },
-    {
-      id_col: 3,
-      title: 'Done',
-      list: [
-        {
-          name: 'Johanna',
-          id: 5,
-        },
-        {
-          name: 'Juan',
-          id: 4,
-        },
-      ],
+      id_status: 2,
+      status: 'In progress',
+      list: [],
     },
   ])
 
-  const addTask = (id_col: number, body: { name: string; id: number }) => {
-    const column = tasks.value.find((col) => col.id_col === id_col)
+  const addTask = (id_status: number, body: { name: string; id: number }) => {
+    const column = tasks.value.find((col) => col.id_status === id_status)
     if (column) {
       column.list.push(body)
-    } else {
-      console.error('Column with id_col', id_col, 'not found')
     }
   }
-  return { tasks, addTask }
+
+  const updateTaskValue = (
+    id_status: number,
+    id: number,
+    field: string,
+    newValue: string,
+  ) => {
+    const column = tasks.value.find((col) => col.id_status === id_status)
+
+    if (column) {
+      const task = column.list.find((task) => task.id === id)
+
+      if (task) {
+        task[field] = newValue
+      }
+    }
+  }
+
+  return { tasks, addTask, updateTaskValue }
 })

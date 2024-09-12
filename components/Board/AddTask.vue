@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
+import { v4 as uuidv4 } from 'uuid'
 
 const props = defineProps({
-  idCol: {
+  idStatus: {
     type: Number,
     required: true,
   },
 })
 
 const store = useTasksStore()
+const uniqueId = uuidv4()
+
 const inputEl = ref()
+const wrapEl = ref()
 const isShowForm = ref(false)
 const inputData = ref('')
 
@@ -28,7 +32,7 @@ const onAddTask = () => {
     return
   }
 
-  store.addTask(props.idCol, { name: inputData.value, id: 12 })
+  store.addTask(props.idStatus, { name: inputData.value, id: uniqueId })
   inputData.value = ''
 }
 
@@ -38,10 +42,24 @@ const submitOnEnter = (event) => {
     onAddTask()
   }
 }
+
+onMounted(() => {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (e && wrapEl.value && !wrapEl.value.contains(e.target as Node)) {
+      isShowForm.value = false
+    }
+  }
+
+  document.addEventListener('mousedown', handleClickOutside)
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('mousedown', handleClickOutside)
+  })
+})
 </script>
 
 <template>
-  <div class="add-task">
+  <div ref="wrapEl" class="add-task">
     <v-btn
       v-if="!isShowForm"
       class="add-task__btn"
@@ -75,11 +93,6 @@ const submitOnEnter = (event) => {
         ></v-btn>
       </div>
     </v-form>
-    <div
-      v-if="isShowForm"
-      class="add-task__fixed-bg"
-      @click="isShowForm = false"
-    ></div>
   </div>
 </template>
 
@@ -88,15 +101,6 @@ const submitOnEnter = (event) => {
   &__form {
     position: relative;
     z-index: 2;
-  }
-
-  &__fixed-bg {
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
   }
 }
 </style>

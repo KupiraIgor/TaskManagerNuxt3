@@ -14,13 +14,13 @@ const { tasks } = storeToRefs(store)
         class="board__cols"
         ghostClass="board__cols-ghost"
         animation="150"
-        handle=".board-col__title"
+        handle="#column-drag-handle"
       >
-        <template v-for="item of tasks" :key="item.id_col">
-          <BoardCol
+        <template v-for="item of tasks" :key="item.status">
+          <BoardColumnDrag
             v-model="item.list"
-            :title="item.title"
-            :id-col="item.id_col"
+            :status="item.status"
+            :id-status="item.id_status"
           />
         </template>
       </VueDraggable>

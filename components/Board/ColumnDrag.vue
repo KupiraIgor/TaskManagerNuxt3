@@ -7,11 +7,11 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  title: {
+  status: {
     type: String,
     required: true,
   },
-  idCol: {
+  idStatus: {
     type: Number,
     required: true,
   },
@@ -27,30 +27,50 @@ const localValue = computed({
     emit('update:modelValue', val)
   },
 })
+
+const startDrag = () => {
+  document.querySelectorAll('.board-col__list').forEach((el) => {
+    el.classList.add('_start-drag')
+  })
+}
+
+const endDrag = () => {
+  document.querySelectorAll('.board-col__list').forEach((el) => {
+    if (el.classList.contains('_start-drag')) {
+      el.classList.remove('_start-drag')
+    }
+  })
+}
 </script>
 
 <template>
   <div class="board-col">
-    <h2 class="board-col__title">{{ title }}</h2>
+    <h2 class="board-col__title" id="column-drag-handle">{{ status }}</h2>
     <VueDraggable
       v-model="localValue"
       group="tasks"
       class="board-col__list"
       ghostClass="board-col__ghost"
       animation="150"
+      @start="startDrag"
+      @end="endDrag"
     >
-      <div v-for="item in localValue" :key="item.id" class="board-col__task">
-        {{ item.name }}
-      </div>
+      <BoardTaskDrag
+        v-for="item in localValue"
+        :key="item.id"
+        :id-status="idStatus"
+        :task="item"
+      />
     </VueDraggable>
-    <div class="board-col__bottom" :class="{ _mt: !localValue.length }">
-      <BoardAddTask :id-col="idCol" />
+    <div class="board-col__bottom">
+      <BoardAddTask :id-status="idStatus" />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .board-col {
+  position: relative;
   background: #232320;
   border-radius: 10px;
   flex: 0 0 272px;
@@ -62,25 +82,27 @@ const localValue = computed({
   &__title {
     padding: 15px 20px 10px;
     font-size: 18px;
+    cursor: pointer;
   }
 
   &__list {
     height: 100%;
     padding: 5px 10px 0;
-  }
 
-  &__task {
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    overflow: hidden;
-    overflow-wrap: break-word;
-    white-space: normal;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
 
-    &:last-child {
-      margin-bottom: 0;
+    &._start-drag {
+      &::before {
+        display: block;
+      }
     }
   }
 
@@ -96,10 +118,6 @@ const localValue = computed({
 
   &__bottom {
     padding: 10px 10px;
-
-    &._mt {
-      padding-top: 0;
-    }
   }
 }
 </style>
