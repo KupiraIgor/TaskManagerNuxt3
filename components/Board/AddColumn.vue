@@ -1,15 +1,6 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
-
-const props = defineProps({
-  idStatus: {
-    type: String,
-    required: true,
-  },
-})
-
 const store = useTasksStore()
+import { v4 as uuidv4 } from 'uuid'
 
 const inputEl = ref()
 const wrapEl = ref()
@@ -26,19 +17,21 @@ const onShowForm = () => {
   }, 0)
 }
 
-const onAddTask = () => {
-  if (!inputData.value.trim()) {
-    return
+const onAddColumn = () => {
+  const column = {
+    id_status: uuidv4(),
+    status: inputData.value,
+    list: [],
   }
-
-  store.addTask(props.idStatus, { name: inputData.value, id: uuidv4() })
+  store.addColumn(column)
   inputData.value = ''
+  isShowForm.value = false
 }
 
 const submitOnEnter = (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault()
-    onAddTask()
+    onAddColumn()
   }
 }
 
@@ -58,32 +51,28 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="wrapEl" class="add-task">
+  <div ref="wrapEl" class="add-column">
     <v-btn
       v-if="!isShowForm"
-      class="add-task__btn"
-      variant="text"
-      size="small"
+      class="add-column__btn"
+      variant="tonal"
       block
       @click="onShowForm"
     >
-      add task
+      add column
     </v-btn>
-    <v-form v-else @submit.prevent="onAddTask" class="add-task__form">
-      <v-textarea
+    <v-form v-else @submit.prevent="onAddColumn" class="add-column__form">
+      <v-text-field
         v-model="inputData"
         ref="inputEl"
-        label="Label"
         variant="outlined"
-        rows="2"
-        row-height="20"
         hide-details
+        density="compact"
         class="mb-2"
-        no-resize
         @keydown.enter="submitOnEnter"
-      ></v-textarea>
+      ></v-text-field>
       <div class="d-flex">
-        <v-btn type="submit" class="flex-1-1-100 mr-2">Submit</v-btn
+        <v-btn type="submit" class="flex-1-1-100 mr-2">Add column</v-btn
         ><v-btn
           icon="mdi-window-close"
           density="comfortable"
@@ -96,10 +85,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.add-task {
-  &__form {
-    position: relative;
-    z-index: 2;
-  }
+.add-column {
+  flex: 0 0 272px;
 }
 </style>

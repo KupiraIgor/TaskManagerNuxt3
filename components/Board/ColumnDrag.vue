@@ -12,13 +12,13 @@ const props = defineProps({
     required: true,
   },
   idStatus: {
-    type: Number,
+    type: String,
     required: true,
   },
 })
 
 const emit = defineEmits(['update:modelValue'])
-
+const isOpenModal = ref(false)
 const localValue = computed({
   get() {
     return props.modelValue
@@ -45,7 +45,17 @@ const endDrag = () => {
 
 <template>
   <div class="board-col">
-    <h2 class="board-col__title" id="column-drag-handle">{{ status }}</h2>
+    <h2 class="board-col__title" id="column-drag-handle">
+      <span>{{ status }}</span
+      ><v-btn
+        icon="mdi-delete"
+        density="compact"
+        rounded
+        variant="text"
+        @click="isOpenModal = true"
+      ></v-btn>
+      <ModalsDeleteCol v-model="isOpenModal" :id-status="idStatus" />
+    </h2>
     <VueDraggable
       v-model="localValue"
       group="tasks"
@@ -73,7 +83,7 @@ const endDrag = () => {
   position: relative;
   background: #232320;
   border-radius: 10px;
-  flex: 0 0 272px;
+  width: 272px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -83,6 +93,8 @@ const endDrag = () => {
     padding: 15px 20px 10px;
     font-size: 18px;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
   }
 
   &__list {

@@ -3,16 +3,25 @@ import { defineStore } from 'pinia'
 export const useTasksStore = defineStore('tasks', () => {
   const tasks = ref([
     {
-      id_status: 1,
+      id_status: 'qew',
       status: 'To do',
       list: [],
     },
     {
-      id_status: 2,
+      id_status: 'qweqe',
       status: 'In progress',
       list: [],
     },
   ])
+  const loading = ref(true)
+
+  const addColumn = (column) => {
+    tasks.value.push(column)
+  }
+
+  const deleteColumn = (id_status) => {
+    tasks.value = tasks.value.filter((task) => task.id_status !== id_status)
+  }
 
   const addTask = (id_status: number, body: { name: string; id: number }) => {
     const column = tasks.value.find((col) => col.id_status === id_status)
@@ -38,5 +47,26 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   }
 
-  return { tasks, addTask, updateTaskValue }
+  const updateLocalStorage = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks.value))
+  }
+
+  const getTasksLocalStorage = () => {
+    tasks.value = JSON.parse(localStorage.getItem('tasks') || '[]')
+  }
+
+  onMounted(() => {
+    watch(tasks, updateLocalStorage, { deep: true })
+    loading.value = false
+  })
+
+  return {
+    tasks,
+    loading,
+    addTask,
+    addColumn,
+    deleteColumn,
+    updateTaskValue,
+    getTasksLocalStorage,
+  }
 })

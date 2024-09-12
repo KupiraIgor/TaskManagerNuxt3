@@ -7,7 +7,7 @@ const props = defineProps({
     required: true,
   },
   idStatus: {
-    type: Number,
+    type: String,
     required: true,
   },
 })
@@ -21,7 +21,7 @@ const isOpenModal = ref(false)
       {{ task.name ? task.name : 'No name' }}
       <v-icon icon="mdi-pencil" size="small" class="task-drag__pencil"></v-icon>
     </div>
-    <BoardModalEdit v-model="isOpenModal" :task="task" :id-status="idStatus" />
+    <ModalsEditTask v-model="isOpenModal" :task="task" :id-status="idStatus" />
   </div>
 </template>
 

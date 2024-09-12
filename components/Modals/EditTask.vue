@@ -13,7 +13,7 @@ const props = defineProps({
     required: true,
   },
   idStatus: {
-    type: Number,
+    type: String,
     required: true,
   },
 })
@@ -43,7 +43,7 @@ const handleKeydown = (event) => {
   }
 }
 
-const trimLinesDescription = (field: string, newValue: string) => {
+const trimLinesDescription = (field: string) => {
   const lines = description.value.split('\n')
   const trimmedLines = lines
     .map((line) => line.trim())
