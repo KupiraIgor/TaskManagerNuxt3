@@ -69,6 +69,7 @@ onMounted(() => {
         hide-details
         density="compact"
         class="mb-2"
+        placeholder="Enter the name of the column..."
         @keydown.enter="submitOnEnter"
       ></v-text-field>
       <div class="d-flex">
@@ -87,5 +88,6 @@ onMounted(() => {
 <style scoped lang="scss">
 .add-column {
   flex: 0 0 272px;
+  padding-right: 20px;
 }
 </style>

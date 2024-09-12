@@ -5,12 +5,22 @@ export const useTasksStore = defineStore('tasks', () => {
     {
       id_status: 'qew',
       status: 'To do',
-      list: [],
+      list: [
+        {
+          id: 'efadabb7-1a4b-4add-a6cd-1ba811a21c01',
+          name: 'todo',
+        },
+      ],
     },
     {
       id_status: 'qweqe',
       status: 'In progress',
-      list: [],
+      list: [
+        {
+          id: 'efadabb7-1a4b-4add-a6cd-1ba811a21c01',
+          name: 'todo',
+        },
+      ],
     },
   ])
   const loading = ref(true)
@@ -36,8 +46,9 @@ export const useTasksStore = defineStore('tasks', () => {
     field: string,
     newValue: string,
   ) => {
-    const column = tasks.value.find((col) => col.id_status === id_status)
+    console.log(123)
 
+    const column = tasks.value.find((col) => col.id_status === id_status)
     if (column) {
       const task = column.list.find((task) => task.id === id)
 
@@ -56,7 +67,7 @@ export const useTasksStore = defineStore('tasks', () => {
   }
 
   onMounted(() => {
-    watch(tasks, updateLocalStorage, { deep: true })
+    // watch(tasks, updateLocalStorage, { deep: true })
     loading.value = false
   })
 

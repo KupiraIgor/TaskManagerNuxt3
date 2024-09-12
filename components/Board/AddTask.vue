@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 
 const props = defineProps({
@@ -67,14 +66,14 @@ onMounted(() => {
       block
       @click="onShowForm"
     >
-      add task
+      add card
     </v-btn>
     <v-form v-else @submit.prevent="onAddTask" class="add-task__form">
       <v-textarea
         v-model="inputData"
         ref="inputEl"
-        label="Label"
         variant="outlined"
+        placeholder="Enter the name of the card..."
         rows="2"
         row-height="20"
         hide-details
@@ -83,7 +82,7 @@ onMounted(() => {
         @keydown.enter="submitOnEnter"
       ></v-textarea>
       <div class="d-flex">
-        <v-btn type="submit" class="flex-1-1-100 mr-2">Submit</v-btn
+        <v-btn type="submit" class="flex-1-1-100 mr-2">Add card</v-btn
         ><v-btn
           icon="mdi-window-close"
           density="comfortable"

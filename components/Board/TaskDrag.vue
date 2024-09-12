@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
-const props = defineProps({
+defineProps({
   task: {
     type: Object,
     required: true,
@@ -36,7 +34,7 @@ const isOpenModal = ref(false)
   &__task {
     position: relative;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 6px 10px;
     border-radius: 8px;
     background: #393937;
     overflow: hidden;

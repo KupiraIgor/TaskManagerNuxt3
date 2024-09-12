@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue'
-
 const store = useTasksStore()
 
 const props = defineProps({
@@ -28,9 +26,18 @@ const localValue = computed({
     emit('update:modelValue', val)
   },
 })
-
+const { tasks } = storeToRefs(store)
 const name = ref(props.task.name)
 const description = ref(props.task.description)
+
+const status = ref(props.idStatus)
+
+const statusOptions = computed(() =>
+  tasks.value.map((task) => ({
+    status: task.status,
+    id_status: task.id_status,
+  })),
+)
 
 const updateValueOnBlur = (field: string, newValue: string) => {
   store.updateTaskValue(props.idStatus, props.task.id, field, newValue)
@@ -67,7 +74,7 @@ const trimLinesDescription = (field: string) => {
         <v-textarea
           v-model="name"
           variant="underlined"
-          placeholder="Name"
+          label="Name"
           no-resize
           row-height="15"
           rows="1"
@@ -77,6 +84,14 @@ const trimLinesDescription = (field: string) => {
           @keydown="handleKeydown"
           class="mb-5 mt-2 text-h2 modal-edit__name"
         />
+        <v-select
+          label="Status"
+          :items="statusOptions"
+          item-title="status"
+          item-value="id_status"
+          v-model="status"
+          variant="underlined"
+        ></v-select>
         <v-textarea
           v-model="description"
           variant="solo-filled"

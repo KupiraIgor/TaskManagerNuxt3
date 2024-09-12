@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 
 const props = defineProps({
@@ -18,7 +17,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
+
 const isOpenModal = ref(false)
+
 const localValue = computed({
   get() {
     return props.modelValue

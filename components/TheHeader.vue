@@ -4,7 +4,7 @@
   <header class="header">
     <v-container>
       <div class="header__body">
-        <div class="header__logo">TestTask</div>
+        <div class="header__logo">Test task The Originals</div>
       </div>
     </v-container>
   </header>
@@ -12,6 +12,14 @@
 
 <style scoped lang="scss">
 .header {
-  background: grey;
+  position: relative;
+  background: #d8d5d5;
+  box-shadow: 0 3px 10px #1727504d;
+
+  &__logo {
+    font-weight: 600;
+    text-align: center;
+    font-size: 20px;
+  }
 }
 </style>

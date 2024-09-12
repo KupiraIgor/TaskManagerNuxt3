@@ -1,10 +1,14 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="default-layout">
+  <v-app class="app">
     <TheHeader />
     <main><slot /></main>
-  </div>
+  </v-app>
 </template>
 
-<style scoped></style>
+<style scoped>
+.app {
+  background: #e4e4e4;
+}
+</style>

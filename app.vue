@@ -2,7 +2,7 @@
 const store = useTasksStore()
 
 onMounted(() => {
-  store.getTasksLocalStorage()
+  // store.getTasksLocalStorage()
 })
 </script>
 
@@ -13,9 +13,9 @@ onMounted(() => {
       <Meta name="description" content="Test task" />
     </Head>
     <NuxtLayout>
-      <v-app>
-        <NuxtPage />
-      </v-app>
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
+
+<style lang="scss"></style>

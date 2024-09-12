@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue'
-
 const store = useTasksStore()
 
 const props = defineProps({
