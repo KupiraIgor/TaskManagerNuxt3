@@ -19,7 +19,7 @@
   &__logo {
     font-weight: 600;
     text-align: center;
-    font-size: 20px;
+    font-size: 22px;
   }
 }
 </style>

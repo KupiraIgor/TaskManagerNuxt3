@@ -1,16 +1,10 @@
 <script setup lang="ts">
 const store = useTasksStore()
 
-const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    required: true,
-  },
-  idStatus: {
-    type: String,
-    required: true,
-  },
-})
+const props = defineProps<{
+  modelValue: boolean
+  idStatus: string
+}>()
 
 const emit = defineEmits(['update:modelValue'])
 

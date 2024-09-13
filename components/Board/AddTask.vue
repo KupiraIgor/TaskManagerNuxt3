@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid'
-
-const props = defineProps({
-  idStatus: {
-    type: String,
-    required: true,
-  },
-})
+import type { Task } from '~/types/tasks'
+const props = defineProps<{
+  idStatus: string
+}>()
 
 const store = useTasksStore()
 
-const inputEl = ref()
-const wrapEl = ref()
+const inputEl = ref<HTMLTextAreaElement | null>(null)
+const wrapEl = ref<HTMLDivElement | null>(null)
 const isShowForm = ref(false)
 const inputData = ref('')
 
@@ -30,11 +27,20 @@ const onAddTask = () => {
     return
   }
 
-  store.addTask(props.idStatus, { name: inputData.value, id: uuidv4() })
+  const task: Task = {
+    name: inputData.value,
+    id: uuidv4(),
+    description: '',
+    priority: 'Low',
+    responsibility: '',
+    performers: [],
+  }
+
+  store.addTask(props.idStatus, task)
   inputData.value = ''
 }
 
-const submitOnEnter = (event) => {
+const submitOnEnter = (event: InputEvent) => {
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault()
     onAddTask()

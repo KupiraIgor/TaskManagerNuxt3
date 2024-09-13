@@ -1,14 +1,10 @@
 <script setup lang="ts">
-defineProps({
-  task: {
-    type: Object,
-    required: true,
-  },
-  idStatus: {
-    type: String,
-    required: true,
-  },
-})
+import type { Task } from '~/types/tasks'
+
+defineProps<{
+  task: Task
+  idStatus: string
+}>()
 
 const isOpenModal = ref(false)
 </script>
@@ -16,8 +12,32 @@ const isOpenModal = ref(false)
 <template>
   <div class="task-drag">
     <div @click="isOpenModal = true" class="task-drag__task">
-      {{ task.name ? task.name : 'No name' }}
+      <div class="task-drag__name">{{ task.name ? task.name : 'No name' }}</div>
       <v-icon icon="mdi-pencil" size="small" class="task-drag__pencil"></v-icon>
+      <div class="task-drag__wrap">
+        <div v-if="task?.performers?.length">
+          <v-avatar
+            v-for="user of task.performers"
+            class="text-uppercase task-drag__avatar"
+            :class="`bg-${user.color}`"
+            size="x-small"
+          >
+            <v-tooltip activator="parent" location="top">
+              {{ user.name }}
+            </v-tooltip>
+            {{ user.name.slice(0, 1) }}
+          </v-avatar>
+        </div>
+        <div
+          v-if="task.priority"
+          class="task-drag__priority"
+          :class="task.priority"
+        >
+          <v-tooltip activator="parent" location="top">
+            {{ task.priority }} priority
+          </v-tooltip>
+        </div>
+      </div>
     </div>
     <ModalsEditTask v-model="isOpenModal" :task="task" :id-status="idStatus" />
   </div>
@@ -48,13 +68,47 @@ const isOpenModal = ref(false)
     }
   }
 
+  &__avatar {
+    margin-left: -5px;
+  }
+
+  &__priority {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    margin-left: auto;
+
+    &.Low {
+      background: green;
+    }
+
+    &.Medium {
+      background: orange;
+    }
+
+    &.High {
+      background: red;
+    }
+  }
+
+  &__name {
+    font-size: 18px;
+  }
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+
   &__pencil {
     position: absolute;
-    top: 0;
+    top: 5px;
     right: 5px;
     background: #393937;
     width: 24px;
-    height: 34px;
+    height: 24px;
     opacity: 0;
     transition: opacity 0.1s ease-in;
   }

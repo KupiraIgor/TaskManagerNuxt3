@@ -2,8 +2,8 @@
 const store = useTasksStore()
 import { v4 as uuidv4 } from 'uuid'
 
-const inputEl = ref()
-const wrapEl = ref()
+const inputEl = ref<HTMLTextAreaElement | null>(null)
+const wrapEl = ref<HTMLDivElement | null>(null)
 const isShowForm = ref(false)
 const inputData = ref('')
 
@@ -28,7 +28,7 @@ const onAddColumn = () => {
   isShowForm.value = false
 }
 
-const submitOnEnter = (event) => {
+const submitOnEnter = (event: InputEvent) => {
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault()
     onAddColumn()

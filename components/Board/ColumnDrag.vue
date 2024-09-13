@@ -1,20 +1,12 @@
 <script setup lang="ts">
 import { VueDraggable } from 'vue-draggable-plus'
+import type { Task } from '~/types/tasks'
 
-const props = defineProps({
-  modelValue: {
-    type: Array,
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-  },
-  idStatus: {
-    type: String,
-    required: true,
-  },
-})
+const props = defineProps<{
+  modelValue: Task[]
+  status: string
+  idStatus: string
+}>()
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -92,7 +84,7 @@ const endDrag = () => {
 
   &__title {
     padding: 15px 20px 10px;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
