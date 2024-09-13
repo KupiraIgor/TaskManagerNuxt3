@@ -12,6 +12,8 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.5.4",
+    "@volar/language-server": "2.4.0-alpha.18",
+    "@vue/language-server": "2.0.28",
     "nuxt": "^3.13.0",
     "sass": "^1.78.0",
     "uuid": "^10.0.0",

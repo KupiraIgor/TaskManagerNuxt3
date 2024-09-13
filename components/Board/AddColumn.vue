@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const store = useTasksStore()
 import { v4 as uuidv4 } from 'uuid'
+const store = useTasksStore()
 
 const onAddColumn = () => {
   if (!inputData.value.trim()) {

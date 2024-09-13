@@ -54,7 +54,7 @@ const endDrag = () => {
       group="tasks"
       class="board-col__list"
       ghostClass="board-col__ghost"
-      animation="150"
+      :animation="150"
       @start="startDrag"
       @end="endDrag"
     >

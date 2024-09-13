@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { performersArr, priorities, responsibilities } from '~/data'
-import type { Col, Performer, Task } from '~/types/tasks'
+import type { Col, Task } from '~/types/tasks'
 
 const store = useTasksStore()
 
@@ -39,18 +39,19 @@ const statusOptions = computed(() =>
   })),
 )
 
-const updateValueOnBlur = (field: string, newValue: string | Performer) => {
+const updateValueOnBlur = (field: keyof Task, newValue: any) => {
   store.updateTaskValue(props.idStatus, props.task.id, field, newValue)
 }
 
-const handleKeydown = (event: Event<HTMLInputElement>) => {
+const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
+    const inputElement = event.target as HTMLInputElement
     event.preventDefault()
-    event.target.blur()
+    inputElement.blur()
   }
 }
 
-const trimLinesDescription = (field: string) => {
+const trimLinesDescription = (field: keyof Task) => {
   if (description.value) {
     const lines = description.value.split('\n')
     const trimmedLines = lines
@@ -98,7 +99,7 @@ const deleteTask = () => {
           row-height="25"
           rows="3"
           auto-grow
-          @blur="trimLinesDescription('description', description)"
+          @blur="trimLinesDescription('description')"
           hide-details
           class="mb-5"
         />
@@ -108,7 +109,6 @@ const deleteTask = () => {
           item-title="status"
           item-value="id_status"
           v-model="status"
-          @blur="updateValueOnBlur('status_id', status)"
           variant="underlined"
         />
         <v-select
@@ -135,7 +135,7 @@ const deleteTask = () => {
           variant="underlined"
           @blur="updateValueOnBlur('performers', performers)"
         >
-          <template v-slot:selection="data">
+          <template v-slot:selection="data: any">
             <v-chip
               :key="JSON.stringify(data.item)"
               v-bind="data.attrs"

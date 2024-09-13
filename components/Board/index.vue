@@ -16,7 +16,7 @@ const { tasks, loading } = storeToRefs(store)
         group="cols"
         class="board__cols"
         ghostClass="board__cols-ghost"
-        animation="150"
+        :animation="150"
         handle="#column-drag-handle"
       >
         <template v-for="item of tasks" :key="item.status">

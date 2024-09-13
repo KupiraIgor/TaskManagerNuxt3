@@ -14,7 +14,7 @@ export const useTasksStore = defineStore('tasks', () => {
     tasks.value = tasks.value.filter((task) => task.id_status !== id_status)
   }
 
-  const addTask = (id_status: number, body: Task) => {
+  const addTask = (id_status: string, body: Task) => {
     const column = tasks.value.find((col) => col.id_status === id_status)
     if (column) {
       column.list.push(body)
@@ -29,10 +29,10 @@ export const useTasksStore = defineStore('tasks', () => {
   }
 
   const updateTaskValue = (
-    id_status: number,
-    id: number,
-    field: string,
-    newValue: string | Performer,
+    id_status: string,
+    id: string,
+    field: keyof Task,
+    newValue: any,
   ) => {
     const column = tasks.value.find((col) => col.id_status === id_status)
     if (column) {
@@ -49,8 +49,9 @@ export const useTasksStore = defineStore('tasks', () => {
   }
 
   const getTasksLocalStorage = () => {
-    if (localStorage.getItem('tasks')) {
-      tasks.value = JSON.parse(localStorage.getItem('tasks'))
+    const storedTasks = localStorage.getItem('tasks')
+    if (storedTasks) {
+      tasks.value = JSON.parse(storedTasks)
     } else {
       tasks.value = initTasks
     }
@@ -64,15 +65,22 @@ export const useTasksStore = defineStore('tasks', () => {
     const fromList = tasks.value.find(
       (task) => task.id_status === fromIdStatus,
     )?.list
+
     const toList = tasks.value.find(
       (task) => task.id_status === toIdStatus,
     )?.list
-    const taskIndex = fromList.findIndex((task) => task.id === id)
-    //delete after modal close
-    setTimeout(() => {
-      const [task] = fromList.splice(taskIndex, 1)
-      toList.push(task)
-    }, 300)
+
+    if (fromList && toList) {
+      const taskIndex = fromList.findIndex((task) => task.id === id)
+
+      if (taskIndex !== -1) {
+        //delete after modal close
+        setTimeout(() => {
+          const [task] = fromList.splice(taskIndex, 1)
+          toList.push(task)
+        }, 300)
+      }
+    }
   }
 
   onMounted(() => {

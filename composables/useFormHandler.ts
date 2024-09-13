@@ -1,7 +1,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 export const useFormHandler = (callback: () => void) => {
-  const inputEl = ref<HTMLTextAreaElement | null>(null)
+  const inputEl = ref<HTMLInputElement | null>(null)
   const wrapEl = ref<HTMLDivElement | null>(null)
   const isShowForm = ref(false)
   const inputData = ref('')
