@@ -2,22 +2,11 @@
 const store = useTasksStore()
 import { v4 as uuidv4 } from 'uuid'
 
-const inputEl = ref<HTMLTextAreaElement | null>(null)
-const wrapEl = ref<HTMLDivElement | null>(null)
-const isShowForm = ref(false)
-const inputData = ref('')
-
-const onShowForm = () => {
-  isShowForm.value = !isShowForm.value
-
-  setTimeout(() => {
-    if (isShowForm.value) {
-      inputEl.value.focus()
-    }
-  }, 0)
-}
-
 const onAddColumn = () => {
+  if (!inputData.value.trim()) {
+    return
+  }
+
   const column = {
     id_status: uuidv4(),
     status: inputData.value,
@@ -28,26 +17,8 @@ const onAddColumn = () => {
   isShowForm.value = false
 }
 
-const submitOnEnter = (event: InputEvent) => {
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault()
-    onAddColumn()
-  }
-}
-
-onMounted(() => {
-  const handleClickOutside = (e: MouseEvent) => {
-    if (e && wrapEl.value && !wrapEl.value.contains(e.target as Node)) {
-      isShowForm.value = false
-    }
-  }
-
-  document.addEventListener('mousedown', handleClickOutside)
-
-  onBeforeUnmount(() => {
-    document.removeEventListener('mousedown', handleClickOutside)
-  })
-})
+const { inputEl, wrapEl, isShowForm, inputData, onShowForm, submitOnEnter } =
+  useFormHandler(onAddColumn)
 </script>
 
 <template>

@@ -1,26 +1,12 @@
 <script setup lang="ts">
 import { v4 as uuidv4 } from 'uuid'
 import type { Task } from '~/types/tasks'
+
 const props = defineProps<{
   idStatus: string
 }>()
 
 const store = useTasksStore()
-
-const inputEl = ref<HTMLTextAreaElement | null>(null)
-const wrapEl = ref<HTMLDivElement | null>(null)
-const isShowForm = ref(false)
-const inputData = ref('')
-
-const onShowForm = () => {
-  isShowForm.value = !isShowForm.value
-
-  setTimeout(() => {
-    if (isShowForm.value) {
-      inputEl.value.focus()
-    }
-  }, 0)
-}
 
 const onAddTask = () => {
   if (!inputData.value.trim()) {
@@ -40,26 +26,8 @@ const onAddTask = () => {
   inputData.value = ''
 }
 
-const submitOnEnter = (event: InputEvent) => {
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault()
-    onAddTask()
-  }
-}
-
-onMounted(() => {
-  const handleClickOutside = (e: MouseEvent) => {
-    if (e && wrapEl.value && !wrapEl.value.contains(e.target as Node)) {
-      isShowForm.value = false
-    }
-  }
-
-  document.addEventListener('mousedown', handleClickOutside)
-
-  onBeforeUnmount(() => {
-    document.removeEventListener('mousedown', handleClickOutside)
-  })
-})
+const { inputEl, wrapEl, isShowForm, inputData, onShowForm, submitOnEnter } =
+  useFormHandler(onAddTask)
 </script>
 
 <template>

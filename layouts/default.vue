@@ -3,7 +3,9 @@
 <template>
   <v-app class="app">
     <TheHeader />
-    <main><slot /></main>
+    <main>
+      <slot />
+    </main>
   </v-app>
 </template>
 
