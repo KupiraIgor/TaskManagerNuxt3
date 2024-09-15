@@ -22,7 +22,7 @@ const isOpenModal = ref(false)
             :class="`bg-${user.color}`"
             size="x-small"
           >
-            <v-tooltip activator="parent" location="top">
+            <v-tooltip activator="parent" location="bottom">
               {{ user.name }}
             </v-tooltip>
             {{ user.name.slice(0, 1) }}
@@ -33,7 +33,7 @@ const isOpenModal = ref(false)
           class="task-drag__priority"
           :class="task.priority"
         >
-          <v-tooltip activator="parent" location="top">
+          <v-tooltip activator="parent" location="bottom">
             {{ task.priority }} priority
           </v-tooltip>
         </div>

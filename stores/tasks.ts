@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { initTasks } from '~/data'
-import type { Col, Task, Performer, Tasks } from '~/types/tasks'
+import type { Col, Task, Tasks } from '~/types/tasks'
 
 export const useTasksStore = defineStore('tasks', () => {
   const tasks = ref<Tasks>([])

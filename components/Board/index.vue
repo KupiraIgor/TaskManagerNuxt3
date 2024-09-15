@@ -6,7 +6,7 @@ const { tasks, loading } = storeToRefs(store)
 </script>
 
 <template>
-  <div class="board">
+  <section class="board">
     <div v-if="loading" class="text-center">
       <v-progress-circular color="grey" indeterminate></v-progress-circular>
     </div>
@@ -29,7 +29,7 @@ const { tasks, loading } = storeToRefs(store)
       </VueDraggable>
       <BoardAddColumn />
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped lang="scss">

@@ -39,13 +39,14 @@ const endDrag = () => {
 <template>
   <div class="board-col">
     <h2 class="board-col__title" id="column-drag-handle">
-      <span>{{ status }}</span
-      ><v-btn
+      <span>{{ status }}</span>
+      <v-btn
         icon="mdi-delete"
         density="compact"
         rounded
         variant="text"
         @click="isOpenModal = true"
+        class="board-col__delete"
       ></v-btn>
       <ModalsDeleteCol v-model="isOpenModal" :id-status="idStatus" />
     </h2>
@@ -123,6 +124,19 @@ const endDrag = () => {
 
   &__bottom {
     padding: 10px 10px;
+  }
+
+  &__delete {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover {
+    .board-col {
+      &__delete {
+        opacity: 1;
+      }
+    }
   }
 }
 </style>
