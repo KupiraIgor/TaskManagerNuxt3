@@ -24,7 +24,13 @@ export const useFormHandler = (callback: () => void) => {
   }
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (e && wrapEl.value && !wrapEl.value.contains(e.target as Node)) {
+    const selectDropdown = document.querySelector('.v-overlay-container')
+    if (
+      e &&
+      wrapEl.value &&
+      !wrapEl.value.contains(e.target as Node) &&
+      !selectDropdown?.contains(e.target as Node)
+    ) {
       isShowForm.value = false
     }
   }

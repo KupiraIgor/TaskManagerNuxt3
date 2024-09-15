@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { performersArr, priorities, responsibilities } from '~/data'
-import type { Col, Task } from '~/types/tasks'
+import type { Task } from '~/types/tasks'
 
 const store = useTasksStore()
 
@@ -18,30 +18,18 @@ const localValue = computed({
   set(val) {
     emit('update:modelValue', val)
     if (!val && props.idStatus !== status.value) {
-      store.changeStatus(props.task.id, props.idStatus, status.value)
+      //delete after modal close
+      setTimeout(() => {
+        updateStatusOnBlur()
+      }, 300)
     }
   },
 })
 
-const { tasks } = storeToRefs(store)
-
+const statusOptions = computed(() => store.statusOptions)
 const name = ref(props.task.name)
 const description = ref(props.task.description)
-const status = ref(props.idStatus)
-const priority = ref(props.task.priority)
 const responsibility = ref(props.task.responsibility)
-const performers = ref(props.task.performers)
-
-const statusOptions = computed(() =>
-  tasks.value.map((col: Col) => ({
-    status: col.status,
-    id_status: col.id_status,
-  })),
-)
-
-const updateValueOnBlur = (field: keyof Task, newValue: any) => {
-  store.updateTaskValue(props.idStatus, props.task.id, field, newValue)
-}
 
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
@@ -66,6 +54,9 @@ const trimLinesDescription = (field: keyof Task) => {
 const deleteTask = () => {
   store.deleteTask(props.task.id)
 }
+
+const { status, priority, performers, updateValueOnBlur, updateStatusOnBlur } =
+  useTaskEdit(props)
 </script>
 
 <template>

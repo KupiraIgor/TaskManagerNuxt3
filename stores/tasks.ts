@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import { initTasks } from '~/data'
-import type { Col, Task, Tasks } from '~/types/tasks'
+import type { Status, Task, Tasks } from '~/types/tasks'
 
 export const useTasksStore = defineStore('tasks', () => {
   const tasks = ref<Tasks>([])
   const loading = ref<boolean>(true)
 
-  const addColumn = (column: Col) => {
+  const addColumn = (column: Status) => {
     tasks.value.push(column)
   }
 
@@ -34,9 +34,9 @@ export const useTasksStore = defineStore('tasks', () => {
     field: keyof Task,
     newValue: any,
   ) => {
-    const column = tasks.value.find((col) => col.id_status === id_status)
-    if (column) {
-      const task = column.list.find((task) => task.id === id)
+    const status = tasks.value.find((stat) => stat.id_status === id_status)
+    if (status) {
+      const task = status.list.find((task) => task.id === id)
 
       if (task) {
         task[field] = newValue
@@ -74,14 +74,18 @@ export const useTasksStore = defineStore('tasks', () => {
       const taskIndex = fromList.findIndex((task) => task.id === id)
 
       if (taskIndex !== -1) {
-        //delete after modal close
-        setTimeout(() => {
-          const [task] = fromList.splice(taskIndex, 1)
-          toList.push(task)
-        }, 300)
+        const [task] = fromList.splice(taskIndex, 1)
+        toList.push(task)
       }
     }
   }
+
+  const statusOptions = computed(() =>
+    tasks.value.map((col: Status) => ({
+      status: col.status,
+      id_status: col.id_status,
+    })),
+  )
 
   onMounted(() => {
     watch(tasks, updateLocalStorage, { deep: true })
@@ -98,5 +102,6 @@ export const useTasksStore = defineStore('tasks', () => {
     getTasksLocalStorage,
     changeStatus,
     deleteTask,
+    statusOptions,
   }
 })

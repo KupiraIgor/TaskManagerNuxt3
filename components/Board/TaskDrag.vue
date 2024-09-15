@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import type { Task } from '~/types/tasks'
+import { useModal } from '~/composables/useModal'
 
 defineProps<{
   task: Task
   idStatus: string
 }>()
 
-const isOpenModal = ref(false)
+const { isOpenModal, openModal } = useModal()
 </script>
 
 <template>
   <div class="task-drag">
-    <div @click="isOpenModal = true" class="task-drag__task">
+    <div @click="openModal" class="task-drag__task">
       <div class="task-drag__name">{{ task.name ? task.name : 'No name' }}</div>
       <v-icon icon="mdi-pencil" size="small" class="task-drag__pencil"></v-icon>
       <div class="task-drag__wrap">

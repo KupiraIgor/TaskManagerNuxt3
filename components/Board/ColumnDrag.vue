@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { VueDraggable } from 'vue-draggable-plus'
 import type { Task } from '~/types/tasks'
+import { useModal } from '~/composables/useModal'
 
 const props = defineProps<{
   modelValue: Task[]
@@ -10,7 +11,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['update:modelValue'])
 
-const isOpenModal = ref(false)
+const { isOpenModal, openModal } = useModal()
 
 const localValue = computed({
   get() {
@@ -45,7 +46,7 @@ const endDrag = () => {
         density="compact"
         rounded
         variant="text"
-        @click="isOpenModal = true"
+        @click="openModal"
         class="board-col__delete"
       ></v-btn>
       <ModalsDeleteCol v-model="isOpenModal" :id-status="idStatus" />

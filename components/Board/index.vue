@@ -7,9 +7,7 @@ const { tasks, loading } = storeToRefs(store)
 
 <template>
   <section class="board">
-    <div v-if="loading" class="text-center">
-      <v-progress-circular color="grey" indeterminate></v-progress-circular>
-    </div>
+    <div v-if="loading">Loading...</div>
     <div v-else class="board__wrap">
       <VueDraggable
         v-model="tasks"
@@ -34,9 +32,6 @@ const { tasks, loading } = storeToRefs(store)
 
 <style scoped lang="scss">
 .board {
-  padding: 20px;
-  overflow-x: auto;
-
   &__cols {
     display: flex;
     gap: 20px;

@@ -12,7 +12,10 @@
 
 <style scoped lang="scss">
 .header {
-  position: relative;
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  left: 0;
   background: #d8d5d5;
   box-shadow: 0 3px 10px #1727504d;
 

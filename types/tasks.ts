@@ -1,6 +1,6 @@
-export type Tasks = Col[]
+export type Tasks = Status[]
 
-export interface Col {
+export interface Status {
   id_status: string
   status: string
   list: Task[]
