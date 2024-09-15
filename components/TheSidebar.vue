@@ -17,8 +17,8 @@
 
 <style scoped lang="scss">
 .sidebar {
-  width: 300px;
-  flex: 0 0 300px;
+  width: 250px;
+  flex: 0 0 250px;
   height: 100%;
   background: #d8d5d5;
   box-shadow: 0 3px 10px #1727504d;
