@@ -2,8 +2,6 @@
 import { performersArr, priorities, responsibilities } from '~/data'
 import type { Task } from '~/types/tasks'
 
-const store = useTasksStore()
-
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
   modelValue: boolean
@@ -26,11 +24,6 @@ const localValue = computed({
   },
 })
 
-const statusOptions = computed(() => store.statusOptions)
-const name = ref(props.task.name)
-const description = ref(props.task.description)
-const responsibility = ref(props.task.responsibility)
-
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter') {
     const inputElement = event.target as HTMLInputElement
@@ -39,24 +32,11 @@ const handleKeydown = (event: KeyboardEvent) => {
   }
 }
 
-const trimLinesDescription = (field: keyof Task) => {
-  if (description.value) {
-    const lines = description.value.split('\n')
-    const trimmedLines = lines
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0)
-    description.value = trimmedLines.join('\n')
-  }
-
-  updateValueOnBlur(field, description.value)
-}
-
 const deleteTask = () => {
   store.deleteTask(props.task.id)
 }
 
-const { status, priority, performers, updateValueOnBlur, updateStatusOnBlur } =
-  useTaskEdit(props)
+const { status, updateStatusOnBlur, store, statusOptions } = useTaskEdit(props)
 </script>
 
 <template>
@@ -70,27 +50,25 @@ const { status, priority, performers, updateValueOnBlur, updateStatusOnBlur } =
       />
       <template v-slot:text>
         <v-textarea
-          v-model="name"
+          v-model="task.name"
           variant="underlined"
           label="Name"
           no-resize
           row-height="15"
           rows="1"
           auto-grow
-          @blur="updateValueOnBlur('name', name)"
           hide-details
           @keydown="handleKeydown"
           class="mb-5 mt-2 text-h2 modal-edit__name"
         />
         <v-textarea
-          v-model="description"
+          v-model="task.description"
           variant="solo-filled"
           label="Description"
           no-resize
           row-height="25"
           rows="3"
           auto-grow
-          @blur="trimLinesDescription('description')"
           hide-details
           class="mb-5"
         />
@@ -104,27 +82,24 @@ const { status, priority, performers, updateValueOnBlur, updateStatusOnBlur } =
         />
         <v-select
           label="Priority"
-          v-model="priority"
+          v-model="task.priority"
           :items="priorities"
-          @blur="updateValueOnBlur('priority', priority)"
           variant="underlined"
         />
         <v-combobox
-          v-model="responsibility"
+          v-model="task.responsibility"
           :items="responsibilities"
-          @blur="updateValueOnBlur('responsibility', responsibility)"
           variant="underlined"
           label="Person in charge"
         />
         <v-select
-          v-model="performers"
+          v-model="task.performers"
           :items="performersArr"
           item-title="name"
           label="Executors"
           multiple
           return-object
           variant="underlined"
-          @blur="updateValueOnBlur('performers', performers)"
         >
           <template v-slot:selection="data: any">
             <v-chip

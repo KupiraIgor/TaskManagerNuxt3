@@ -8,11 +8,7 @@ const props = defineProps<{
   idStatus: string
 }>()
 
-const store = useTasksStore()
-const { statusOptions } = storeToRefs(store)
-
-const { status, priority, performers, updateValueOnBlur, updateStatusOnBlur } =
-  useTaskEdit(props)
+const { status, updateStatusOnBlur, statusOptions } = useTaskEdit(props)
 const { isOpenModal, openModal } = useModal()
 </script>
 
@@ -42,22 +38,20 @@ const { isOpenModal, openModal } = useModal()
     </span>
     <span>
       <v-select
-        v-model="priority"
+        v-model="task.priority"
         :items="priorities"
         variant="plain"
         hide-details
-        @blur="updateValueOnBlur('priority', priority)"
     /></span>
     <span>
       <v-select
-        v-model="performers"
+        v-model="task.performers"
         :items="performersArr"
         item-title="name"
         multiple
         return-object
         variant="plain"
         hide-details
-        @blur="updateValueOnBlur('performers', performers)"
       >
         <template v-slot:selection="data: any">
           <v-avatar
