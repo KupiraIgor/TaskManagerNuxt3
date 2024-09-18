@@ -40,7 +40,7 @@ const endDrag = () => {
 <template>
   <div class="board-col">
     <h2 class="board-col__title" id="column-drag-handle">
-      <span>{{ status }}</span>
+      <span class="board-col__title-wrap">{{ status }}</span>
       <v-btn
         icon="mdi-delete"
         density="compact"
@@ -90,6 +90,11 @@ const endDrag = () => {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+
+    &-wrap {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
   }
 
   &__list {
