@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { Task } from '~/types/tasks'
-import { useModal } from '~/composables/useModal'
+const store = useTasksStore()
 
-defineProps<{
+const props = defineProps<{
   task: Task
   idStatus: string
 }>()
 
-const { isOpenModal, openModal } = useModal()
+const openModal = () => {
+  store.openModalEditTask(props.task, props.idStatus)
+}
 </script>
 
 <template>
@@ -40,7 +42,6 @@ const { isOpenModal, openModal } = useModal()
         </div>
       </div>
     </div>
-    <ModalsEditTask v-model="isOpenModal" :task="task" :id-status="idStatus" />
   </div>
 </template>
 

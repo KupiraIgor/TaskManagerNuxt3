@@ -2,18 +2,30 @@ import { ref } from 'vue'
 import type { Task } from '~/types/tasks'
 import { useTasksStore } from '~/stores/tasks'
 
-export function useTaskEdit(props: { task: Task; idStatus: string }) {
+export function useTaskEdit(props: {
+  task: Task | null
+  idStatus: string | null
+}) {
   const store = useTasksStore()
-  const status = ref(props.idStatus)
+  const statusValue = ref(props.idStatus)
+
+  watch(
+    () => props.idStatus,
+    (newValue) => {
+      statusValue.value = newValue
+    },
+  )
 
   const statusOptions = computed(() => store.statusOptions)
 
   const updateStatusOnBlur = () => {
-    store.changeStatus(props.task.id, props.idStatus, status.value)
+    if (props.task && props.idStatus && statusValue.value) {
+      store.changeStatus(props.task.id, props.idStatus, statusValue.value)
+    }
   }
 
   return {
-    status,
+    statusValue,
     store,
     statusOptions,
     updateStatusOnBlur,

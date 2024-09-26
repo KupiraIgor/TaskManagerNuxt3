@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const store = useTasksStore()
 
+const { modalEditTask } = storeToRefs(store)
+
 onMounted(() => {
   store.getTasksLocalStorage()
 })
@@ -14,6 +16,11 @@ onMounted(() => {
     </Head>
     <NuxtLayout>
       <NuxtPage />
+      <ModalsEditTask
+        v-model="modalEditTask.is_open"
+        :task="modalEditTask.task"
+        :id-status="modalEditTask.id_status"
+      />
     </NuxtLayout>
   </div>
 </template>

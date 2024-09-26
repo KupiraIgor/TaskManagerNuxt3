@@ -5,8 +5,8 @@ import type { Task } from '~/types/tasks'
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
   modelValue: boolean
-  task: Task
-  idStatus: string
+  task: Task | null
+  idStatus: string | null
 }>()
 
 const localValue = computed({
@@ -15,11 +15,8 @@ const localValue = computed({
   },
   set(val) {
     emit('update:modelValue', val)
-    if (!val && props.idStatus !== status.value) {
-      //delete after modal close
-      setTimeout(() => {
-        updateStatusOnBlur()
-      }, 300)
+    if (!val) {
+      store.closeModalEditTask()
     }
   },
 })
@@ -33,10 +30,13 @@ const handleKeydown = (event: KeyboardEvent) => {
 }
 
 const deleteTask = () => {
-  store.deleteTask(props.task.id)
+  if (props.task) {
+    store.deleteTask(props.task.id)
+  }
 }
 
-const { status, updateStatusOnBlur, store, statusOptions } = useTaskEdit(props)
+const { statusValue, updateStatusOnBlur, store, statusOptions } =
+  useTaskEdit(props)
 </script>
 
 <template>
@@ -77,8 +77,9 @@ const { status, updateStatusOnBlur, store, statusOptions } = useTaskEdit(props)
           :items="statusOptions"
           item-title="status"
           item-value="id_status"
-          v-model="status"
+          v-model="statusValue"
           variant="underlined"
+          @update:modelValue="updateStatusOnBlur"
         />
         <v-select
           label="Priority"

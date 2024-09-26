@@ -19,3 +19,9 @@ export interface Performer {
   name: string
   color: string
 }
+
+export interface IModalEditTask {
+  is_open: boolean
+  task: null | Task
+  id_status: null | string
+}

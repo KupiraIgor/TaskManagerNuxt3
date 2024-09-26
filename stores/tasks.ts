@@ -1,10 +1,15 @@
 import { defineStore } from 'pinia'
 import { initTasks } from '~/data'
-import type { Status, Task, Tasks } from '~/types/tasks'
+import type { IModalEditTask, Status, Task, Tasks } from '~/types/tasks'
 
 export const useTasksStore = defineStore('tasks', () => {
   const tasks = ref<Tasks>([])
   const loading = ref<boolean>(true)
+  const modalEditTask = ref<IModalEditTask>({
+    is_open: false,
+    task: null,
+    id_status: null,
+  })
 
   const addColumn = (column: Status) => {
     tasks.value.push(column)
@@ -76,6 +81,9 @@ export const useTasksStore = defineStore('tasks', () => {
       if (taskIndex !== -1) {
         const [task] = fromList.splice(taskIndex, 1)
         toList.push(task)
+        if (modalEditTask.value.is_open) {
+          modalEditTask.value.id_status = toIdStatus
+        }
       }
     }
   }
@@ -92,9 +100,24 @@ export const useTasksStore = defineStore('tasks', () => {
     loading.value = false
   })
 
+  const openModalEditTask = (task: any, id_status: any) => {
+    modalEditTask.value.task = task
+    modalEditTask.value.id_status = id_status
+    modalEditTask.value.is_open = true
+  }
+
+  const closeModalEditTask = () => {
+    setTimeout(() => {
+      modalEditTask.value.task = null
+      modalEditTask.value.id_status = null
+      modalEditTask.value.is_open = false
+    }, 250)
+  }
+
   return {
     tasks,
     loading,
+    modalEditTask,
     addTask,
     addColumn,
     deleteColumn,
@@ -102,6 +125,8 @@ export const useTasksStore = defineStore('tasks', () => {
     getTasksLocalStorage,
     changeStatus,
     deleteTask,
+    openModalEditTask,
+    closeModalEditTask,
     statusOptions,
   }
 })
