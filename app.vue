@@ -11,7 +11,7 @@ onMounted(() => {
 <template>
   <div>
     <Head>
-      <Title>Test task | The Originals</Title>
+      <Title>Task manager</Title>
       <Meta name="description" content="Test task The Originals" />
     </Head>
     <NuxtLayout>

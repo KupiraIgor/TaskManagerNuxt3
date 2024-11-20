@@ -4,7 +4,7 @@
   <header class="header">
     <v-container>
       <div class="header__body">
-        <div class="header__logo">Test task The Originals</div>
+        <div class="header__logo">Task manager</div>
       </div>
     </v-container>
   </header>
